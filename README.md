@@ -1,13 +1,13 @@
-# swifthelpers
+# RocketSwift
 
-This repository contains helping reusable extensions for Swift
+3...2...1...Liftoff!
 
-swifthelpers is available through CocoaPods:
+RocketSwift is available through CocoaPods:
 ```
-pod ‘SwiftHelpers’
+pod ‘RocketSwift’
 ```
 
-Import using `import SwiftHelpers`
+Import using `import RocketSwift`
   
 ---  
 
