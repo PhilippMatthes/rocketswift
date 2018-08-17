@@ -9,7 +9,7 @@ s.requires_arc = true
 s.swift_version = "4.1"
 
 
-s.version = "0.0.1"
+s.version = "0.0.2"
 
 s.license = { :type => "MIT", :file => "LICENSE.md" }
 
@@ -23,6 +23,6 @@ s.source = { :git => "https://github.com/PhilippMatthes/rocketswift.git", :tag =
 s.dependency 'Material'
 s.dependency 'Motion'
 
-s.source_files = "swifthelpers/**/*.{swift}"
+s.source_files = "RocketSwift/**/*.{swift}"
 
 end
