@@ -36,7 +36,7 @@ extension String {
             else {return attributedString}
         let range = NSRange(location: 0, length: self.utf16.count)
         for match in regex.matches(in: self.folding(options: .diacriticInsensitive, locale: .current), options: .withTransparentBounds, range: range) {
-            attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: backgroundColor, range: match.range)
+            attributedString.addAttribute(.backgroundColor, value: backgroundColor, range: match.range)
         }
         return attributedString
     }
@@ -44,7 +44,7 @@ extension String {
     func attributed(withBackgroundColor color: UIColor) -> NSAttributedString {
         let attributedString = NSMutableAttributedString(string: self)
         let range = NSRange(location: 0, length: self.utf16.count)
-        attributedString.addAttribute(NSAttributedString.Key.backgroundColor, value: color, range: range)
+        attributedString.addAttribute(.backgroundColor, value: color, range: range)
         return attributedString
     }
     

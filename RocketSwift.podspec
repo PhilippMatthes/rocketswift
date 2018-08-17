@@ -23,6 +23,6 @@ s.source = { :git => "https://github.com/PhilippMatthes/rocketswift.git", :tag =
 s.dependency 'Material'
 s.dependency 'Motion'
 
-s.source_files = "RocketSwift/**/*.{swift}"
+s.source_files = "RocketSwift/**"
 
 end
