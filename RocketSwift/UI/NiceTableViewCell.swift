@@ -20,38 +20,33 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
-//  Created by Philipp Matthes on 04.02.18.
+//  Created by Philipp Matthes on 17.08.18.
 //  Copyright © 2018 Philipp Matthes. All rights reserved.
 //
 
 import Foundation
+import Material
 
-
-extension Array where Element:Equatable {
-    func removeDuplicates() -> [Element] {
-        var result = [Element]()
-        
-        for value in self {
-            if result.contains(value) == false {
-                result.append(value)
-            }
-        }
-        
-        return result
+class NiceTableViewCell: TableViewCell {
+    
+    static let identifier = "NiceTableViewCell"
+    
+    static let textLabelFont = RobotoFont.medium(with: 16.0)
+    static let detailTextLabelFont = RobotoFont.light(with: 15.0)
+    
+    override func prepare() {
+        super.prepare()
+        textLabel?.numberOfLines = 0
+        textLabel?.font = NiceTableViewCell.textLabelFont
+        textLabel?.textColor = .white
+        detailTextLabel?.numberOfLines = 0
+        detailTextLabel?.font = NiceTableViewCell.detailTextLabelFont
+        detailTextLabel?.textColor = .white
     }
-
-    func filterDuplicates( includeElement: @escaping (_ lhs:Element, _ rhs:Element) -> Bool) -> [Element] {
-        var results = [Element]()
-        
-        forEach { (element) in
-            let existingElements = results.filter {
-                return includeElement(element, $0)
-            }
-            if existingElements.count == 0 {
-                results.append(element)
-            }
-        }
-        
-        return results
+    
+    func highlight(search: String, withBackgroundColor color: UIColor) {
+        textLabel?.attributedText = textLabel?.text?.generateAttributedString(with: search, backgroundColor: color)
+        detailTextLabel?.attributedText = detailTextLabel?.text?.generateAttributedString(with: search, backgroundColor: color)
     }
+    
 }

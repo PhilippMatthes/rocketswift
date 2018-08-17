@@ -20,38 +20,40 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
-//  Created by Philipp Matthes on 04.02.18.
+//  Created by Philipp Matthes on 23.07.18.
 //  Copyright © 2018 Philipp Matthes. All rights reserved.
 //
 
 import Foundation
+import WatchKit
 
-
-extension Array where Element:Equatable {
-    func removeDuplicates() -> [Element] {
-        var result = [Element]()
+extension WKInterfaceGroup {
+    public func imageFromUrl(_ urlString: String?) {
         
-        for value in self {
-            if result.contains(value) == false {
-                result.append(value)
-            }
+        guard let urlString = urlString else {return}
+        
+        if let url = NSURL(string: urlString) {
+            
+            let request = NSURLRequest(url: url as URL)
+            let config = URLSessionConfiguration.default
+            let session = URLSession(configuration: config)
+            
+            let dispatchGroup = DispatchGroup()
+            dispatchGroup.enter()
+            let task = session.dataTask(with: request as URLRequest, completionHandler: {(data, response, error) in
+                if let imageData = data as Data? {
+                    DispatchQueue.main.async {
+                        self.setBackgroundImageData(imageData)
+                        dispatchGroup.leave()
+                    }
+                } else {
+                    dispatchGroup.leave()
+                }
+            });
+            
+            task.resume()
+            dispatchGroup.wait()
         }
-        
-        return result
-    }
-
-    func filterDuplicates( includeElement: @escaping (_ lhs:Element, _ rhs:Element) -> Bool) -> [Element] {
-        var results = [Element]()
-        
-        forEach { (element) in
-            let existingElements = results.filter {
-                return includeElement(element, $0)
-            }
-            if existingElements.count == 0 {
-                results.append(element)
-            }
-        }
-        
-        return results
     }
 }
+

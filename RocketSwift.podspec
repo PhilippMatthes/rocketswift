@@ -9,7 +9,7 @@ s.requires_arc = true
 s.swift_version = "4.1"
 
 
-s.version = "0.0.2"
+s.version = "1.0.0"
 
 s.license = { :type => "MIT", :file => "LICENSE.md" }
 

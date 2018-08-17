@@ -20,38 +20,37 @@
 //  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //  SOFTWARE.
 //
-//  Created by Philipp Matthes on 04.02.18.
+//  Created by Philipp Matthes on 04.07.18.
 //  Copyright © 2018 Philipp Matthes. All rights reserved.
 //
 
 import Foundation
 
-
-extension Array where Element:Equatable {
-    func removeDuplicates() -> [Element] {
-        var result = [Element]()
+extension Sequence {
+    func splitBefore(
+        separator isSeparator: (Iterator.Element) throws -> Bool
+        ) rethrows -> [AnySequence<Iterator.Element>] {
+        var result: [AnySequence<Iterator.Element>] = []
+        var subSequence: [Iterator.Element] = []
         
-        for value in self {
-            if result.contains(value) == false {
-                result.append(value)
+        var iterator = self.makeIterator()
+        while let element = iterator.next() {
+            if try isSeparator(element) {
+                if !subSequence.isEmpty {
+                    result.append(AnySequence(subSequence))
+                }
+                subSequence = [element]
+            }
+            else {
+                subSequence.append(element)
             }
         }
-        
+        result.append(AnySequence(subSequence))
         return result
     }
-
-    func filterDuplicates( includeElement: @escaping (_ lhs:Element, _ rhs:Element) -> Bool) -> [Element] {
-        var results = [Element]()
-        
-        forEach { (element) in
-            let existingElements = results.filter {
-                return includeElement(element, $0)
-            }
-            if existingElements.count == 0 {
-                results.append(element)
-            }
-        }
-        
-        return results
-    }
 }
+
+extension Character {
+    var isUpperCase: Bool { return String(self) == String(self).uppercased() }
+}
+
